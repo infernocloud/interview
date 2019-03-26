@@ -25,6 +25,10 @@
             {
                 "ignoreComments": true
             }
+        ],
+        "quotes": [
+            "warn",
+            "single"
         ]
     }
 }
