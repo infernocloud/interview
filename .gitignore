@@ -1,5 +1,6 @@
 # Env
 node_modules
+.DS_Store
 
 # Editors
 .vscode
