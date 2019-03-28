@@ -23,15 +23,19 @@ class LevelManager {
     this.validLevels = new Set(this.levelSchema.levels.map(({ _id }) => _id));
   }
 
+  // Filters an array of level _ids down to only those that are valid
+  filterValidLevels(levels) {
+    const isValidLevel = _id => this.validLevels.has(_id);
+    return levels.filter(isValidLevel);
+  }
+
   // Returns an array with the _id of all valid levels that have been completed
   getCompleted() {
-    const completedLevels = this.levelSchema.userLevelStates.filter(item => item.state === 'complete');
-    const completedLevelIDs = completedLevels.map(item => item.level);
+    const completedLevels = this.levelSchema.userLevelStates.filter(({ state }) => state === 'complete');
+    const completedLevelIDs = completedLevels.map(({ level }) => level);
     
     // Need to ensure that the level IDs are valid from the level schema?
-    const validatedCompletedLevelIDs = completedLevelIDs.filter((item) => {
-      return this.validLevels.has(item);
-    });
+    const validatedCompletedLevelIDs = this.filterValidLevels(completedLevelIDs);
 
     return validatedCompletedLevelIDs;
   }
@@ -48,6 +52,7 @@ class LevelManager {
   // Return any level that is marked as first: true (entry points)
   // Return any levels that are in unlocks[] of accessible and [completed] levels (recurse until we reach end of tree)
   // @TODO do we care about whether the level is completed or not? Is this total possible paths, or user accessibility?
+  // 1 hr 28ish minutes to here
   getAccessible() {
     return [];
   }
