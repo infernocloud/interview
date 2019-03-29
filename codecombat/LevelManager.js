@@ -30,7 +30,7 @@ class LevelManager {
     this.validLevels = new Set(this.levelSchema.levels.map(({ _id }) => _id));
   }
 
-  // Builds a set (unique array) of all level _ids from the schema
+  // Cache level IDs for completed levels for easier comparison
   cacheCompletedLevels() {
     this.completedLevels = this.getCompleted();
   }
