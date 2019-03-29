@@ -37,14 +37,12 @@ class LevelManager {
 
   // Get the index of the level object in this.levelSchema.levels[]
   getLevelIndex(_id) {
-    const levelIndex = this.levelIndex[_id];
-
     // Return -1 if level key is invalid
-    if (!levelIndex && levelIndex !== 0) {
+    if (!(_id in this.levelIndex)) {
       return -1;
     }
 
-    return levelIndex;
+    return this.levelIndex[_id];
   }
 
   // Filters an array of level _ids down to only those that are valid
