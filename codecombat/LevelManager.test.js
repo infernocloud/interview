@@ -73,11 +73,11 @@ describe('default level schema', () => {
   });
 
   test('returns accessible level names', () => {
-    expect(myLevelManager.getAccessible()).toEqual(['First Level', 'Second Level']);
+    expect(myLevelManager.getAccessible(true)).toEqual(['First Level', 'Second Level']);
   });
 
   test('returns inaccessible level names', () => {
-    expect(myLevelManager.getInaccessible()).toEqual(['Inaccessible Level', 'Second Inaccessible Level']);
+    expect(myLevelManager.getInaccessible(true)).toEqual(['Inaccessible Level', 'Second Inaccessible Level']);
   });
 });
 
