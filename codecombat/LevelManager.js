@@ -12,10 +12,10 @@ class LevelManager {
 
   // Builds an object indexing each level _id to the array position in levelSchema.levels
   indexLevels() {
-    this.levelIndex = {};
-    this.levelSchema.levels.forEach(({ _id }, index) => {
-      this.levelIndex[_id] = index;
-    });
+    this.levelIndex = this.levelSchema.levels.reduce((accumulator, current, currentIndex) => {
+      accumulator[current._id] = currentIndex;
+      return accumulator;
+    }, {});
   }
 
   // Builds a set (unique array) of all level _ids from the schema
