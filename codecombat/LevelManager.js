@@ -2,7 +2,7 @@
 class LevelManager {
   constructor(levelSchema = {}) {
     if (!levelSchema.levels || levelSchema.length === 0) {
-      throw new Error('Invalid level schema');
+      throw new Error("Invalid level schema");
     }
 
     this.levelSchema = levelSchema;
@@ -17,10 +17,13 @@ class LevelManager {
 
   // Builds an object indexing each level _id to the array position in levelSchema.levels
   indexLevels() {
-    this.levelIndex = this.levelSchema.levels.reduce((accumulator, current, currentIndex) => {
-      accumulator[current._id] = currentIndex;
-      return accumulator;
-    }, {});
+    this.levelIndex = this.levelSchema.levels.reduce(
+      (accumulator, current, currentIndex) => {
+        accumulator[current._id] = currentIndex;
+        return accumulator;
+      },
+      {}
+    );
   }
 
   // Builds a set (unique array) of all level _ids from the schema
@@ -53,12 +56,12 @@ class LevelManager {
 
   // Return an array containing the name of each level in the argument array
   getNames(levels) {
-    return levels.map((levelID) => {
+    return levels.map(levelID => {
       const levelIndex = this.getLevelIndex(levelID);
-      
+
       // Can't map invalid level IDs to a name
       if (levelIndex < 0) {
-        return '';
+        return "";
       }
 
       return this.levelSchema.levels[levelIndex].name;
@@ -67,11 +70,15 @@ class LevelManager {
 
   // Returns an array with the _id of all valid levels that have been completed
   getCompleted() {
-    const completedLevels = this.levelSchema.userLevelStates.filter(({ state }) => state === 'complete');
+    const completedLevels = this.levelSchema.userLevelStates.filter(
+      ({ state }) => state === "complete"
+    );
     const completedLevelIDs = completedLevels.map(({ level }) => level);
-    
+
     // Need to ensure that the level IDs are valid from the level schema?
-    const validatedCompletedLevelIDs = this.filterValidLevels(completedLevelIDs);
+    const validatedCompletedLevelIDs = this.filterValidLevels(
+      completedLevelIDs
+    );
 
     return validatedCompletedLevelIDs;
   }
@@ -99,20 +106,28 @@ class LevelManager {
       // Only completed levels should be traversed
       // @TODO If a level is completed is it still accessible?
       const completedFirstLevels = this.filterCompletedLevels(firstLevelIDs);
-      return [...firstLevelIDs, ...this.traverse(completedFirstLevels, actualProgression)];
+      return [
+        ...firstLevelIDs,
+        ...this.traverse(completedFirstLevels, actualProgression)
+      ];
     }
-    
-    return [...firstLevelIDs, ...this.traverse(firstLevelIDs, actualProgression)];
+
+    return [
+      ...firstLevelIDs,
+      ...this.traverse(firstLevelIDs, actualProgression)
+    ];
   }
 
   getAccessibleNames(actualProgression = true) {
     return this.getNames(this.getAccessible(actualProgression));
   }
-  
+
   // Return an array with _id of each level that is not currently accessible to a user
   getInaccessible(actualProgression = true) {
     const accessible = this.getAccessible(actualProgression);
-    return [...this.validLevels].filter(levelID => !accessible.includes(levelID));
+    return [...this.validLevels].filter(
+      levelID => !accessible.includes(levelID)
+    );
   }
 
   getInaccessibleNames(actualProgression = true) {
@@ -126,12 +141,12 @@ class LevelManager {
     if (levels.length === 0) {
       return [];
     }
-    
+
     // Get the unlocks for each level in levels[],
     // These are added to the return array immediately.
     const unlocks = levels.reduce((accumulator, current) => {
       const levelIndex = this.getLevelIndex(current);
-      
+
       // If level is invalid reference, don't traverse it
       if (levelIndex < 0) {
         return accumulator;
@@ -145,9 +160,12 @@ class LevelManager {
     if (actualProgression) {
       // Only completed levels should be traversed further
       const completedUnlocks = this.filterCompletedLevels(unlocks);
-      return [...unlocks, ...this.traverse(completedUnlocks, actualProgression)];
+      return [
+        ...unlocks,
+        ...this.traverse(completedUnlocks, actualProgression)
+      ];
     }
-    
+
     return [...unlocks, ...this.traverse(unlocks, actualProgression)];
   }
 }

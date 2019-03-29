@@ -1,94 +1,92 @@
-const LevelManager = require('./LevelManager');
+const LevelManager = require("./LevelManager");
 
-describe('default level schema', () => {
+describe("default level schema", () => {
   const levelSchema = {
     levels: [
       {
-        _id: 'level_1',
-        name: 'First Level',
-        unlocks: [
-          'level_2',
-        ],
-        first: true,
+        _id: "level_1",
+        name: "First Level",
+        unlocks: ["level_2"],
+        first: true
       },
       {
-        _id: 'level_2',
-        name: 'Second Level',
-        unlocks: ['level_3'],
-        first: false,
+        _id: "level_2",
+        name: "Second Level",
+        unlocks: ["level_3"],
+        first: false
       },
       {
-        _id: 'level_3',
-        name: 'Inaccessible Level',
-        unlocks: ['level_4'],
-        first: false,
+        _id: "level_3",
+        name: "Inaccessible Level",
+        unlocks: ["level_4"],
+        first: false
       },
       {
-        _id: 'level_4',
-        name: 'Second Inaccessible Level',
+        _id: "level_4",
+        name: "Second Inaccessible Level",
         unlocks: [],
-        first: false,
-      },
+        first: false
+      }
     ],
     userLevelStates: [
       {
-        _id: 'state_1',
-        level: 'level_1',
-        state: 'complete',
-      },
-    ],
+        _id: "state_1",
+        level: "level_1",
+        state: "complete"
+      }
+    ]
   };
   const myLevelManager = new LevelManager(levelSchema);
 
-  test('level schema matches after constructor', () => {
+  test("level schema matches after constructor", () => {
     expect(myLevelManager.levelSchema).toEqual(levelSchema);
   });
 
-  test('builds a correct level index', () => {
+  test("builds a correct level index", () => {
     const testIndex = {
       level_1: 0,
       level_2: 1,
       level_3: 2,
-      level_4: 3,
+      level_4: 3
     };
     expect(myLevelManager.levelIndex).toEqual(testIndex);
   });
 
-  test('returns valid level IDs', () => {
-    const testSet = new Set([
-      'level_1',
-      'level_2',
-      'level_3',
-      'level_4',
-    ]);
+  test("returns valid level IDs", () => {
+    const testSet = new Set(["level_1", "level_2", "level_3", "level_4"]);
     expect(myLevelManager.validLevels).toEqual(testSet);
   });
 
-  test('returns completed level IDs', () => {
-    expect(myLevelManager.getCompleted()).toEqual(['level_1']);
+  test("returns completed level IDs", () => {
+    expect(myLevelManager.getCompleted()).toEqual(["level_1"]);
   });
 
-  test('returns completed level names', () => {
-    expect(myLevelManager.getCompletedNames()).toEqual(['First Level']);
+  test("returns completed level names", () => {
+    expect(myLevelManager.getCompletedNames()).toEqual(["First Level"]);
   });
 
-  test('returns accessible level names', () => {
-    expect(myLevelManager.getAccessibleNames(false)).toEqual(['First Level', 'Second Level', 'Inaccessible Level', 'Second Inaccessible Level']);
+  test("returns accessible level names", () => {
+    expect(myLevelManager.getAccessibleNames(false)).toEqual([
+      "First Level",
+      "Second Level",
+      "Inaccessible Level",
+      "Second Inaccessible Level"
+    ]);
   });
 
-  test('returns inaccessible level names', () => {
+  test("returns inaccessible level names", () => {
     expect(myLevelManager.getInaccessibleNames(false)).toEqual([]);
   });
 
-  test('traverses down level unlocks', () => {
-    expect(myLevelManager.traverse(['level_1'])).toEqual(['level_2']);
+  test("traverses down level unlocks", () => {
+    expect(myLevelManager.traverse(["level_1"])).toEqual(["level_2"]);
   });
 });
 
-describe('invalid level schema', () => {
+describe("invalid level schema", () => {
   const levelSchema = {};
 
-  test('throws with invalid level schema', () => {
+  test("throws with invalid level schema", () => {
     expect(() => {
       const myLevelManager = new LevelManager(levelSchema);
       return myLevelManager;
