@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 class LevelManager {
   constructor(levelSchema = {}) {
     if (!levelSchema.levels || levelSchema.length === 0) {
