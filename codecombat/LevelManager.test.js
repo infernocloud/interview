@@ -14,7 +14,7 @@ describe('default level schema', () => {
       {
         _id: 'level_2',
         name: 'Second Level',
-        unlocks: [],
+        unlocks: ['level_3'],
         first: false,
       },
       {
@@ -73,11 +73,15 @@ describe('default level schema', () => {
   });
 
   test('returns accessible level names', () => {
-    expect(myLevelManager.getAccessible(true)).toEqual(['First Level', 'Second Level']);
+    expect(myLevelManager.getAccessibleNames(false)).toEqual(['First Level', 'Second Level', 'Inaccessible Level', 'Second Inaccessible Level']);
   });
 
   test('returns inaccessible level names', () => {
-    expect(myLevelManager.getInaccessible(true)).toEqual(['Inaccessible Level', 'Second Inaccessible Level']);
+    expect(myLevelManager.getInaccessibleNames(false)).toEqual([]);
+  });
+
+  test('traverses down level unlocks', () => {
+    expect(myLevelManager.traverse(['level_1'])).toEqual(['level_2']);
   });
 });
 
