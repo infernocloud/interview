@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Client</title>
+    <!-- Local version of JQuery -->
+    <!-- <script src="../node_modules/jquery/dist/"></script> -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+      $.ajax({
+        url: "/boilerplate.json",
+        data: {},
+        success: function(result) {
+          console.log(result);
+          $("#response").html("<strong>" + result.hello + "</strong>");
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <div id="response"></div>
+  </body>
+</html>
